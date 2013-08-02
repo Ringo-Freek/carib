@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Пираты карибского моря</title>
+<link href="main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="webgl_utils_shader.js"></script>
+<script type="text/javascript" src="gl_goal.js"></script>
+
+<script id="2d-vertex-shader" type="x-shader/x-vertex">
+attribute vec2 a_position;
+uniform vec2 u_resolution;
+varying vec2 v_texCoord;
+attribute vec2 a_texCoord;
+
+void main() 
+{
+   vec2 zeroToOne = a_position / u_resolution;
+   vec2 zeroToTwo = zeroToOne * 2.0;
+   vec2 clipSpace = zeroToTwo - 1.0;
+   gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+   v_texCoord = a_texCoord;
+}
+</script></script>
+
+<script id="2d-fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+uniform sampler2D uSampler;
+varying vec2 v_texCoord;
+
+void main() 
+{
+   gl_FragColor = texture2D(uSampler, vec2(v_texCoord.s, v_texCoord.t));
+}
+
+</script>
+
+</head>
+<body onload="main();" bgcolor=#1e0e00 >
+<center>
+<div style = "background-image: url(fon.jpg); background-repeat: no-repeat; width: 1270px; height: 684px;" valign="center">
+<audio id="player" src="1.ogg" loop></audio>
+<table align="center">
+<tbody>
+<tr><td>&nbsp </td></tr>
+<tr>
+<td valign="center">
+<a href="http://www.khronos.org/webgl/wiki/BlacklistsAndWhitelists" class = "po" style = "font-size: 20px;">Не идет игры? Тогда тебе сюда!</a>
+<div style = "background-image: url(console.png); width: 287px; height: 479px; margin-top: 18px;" align="center" >
+<br /><text style = "font-family: Arial Narrow !important; font-size: 25px;">Путеводитель!
+<p id = "p2" style = "font-family: Arial Narrow !important; font-size: 18px; padding: 35px 32px 35px 37px; height: 305px; margin-top:-12px; text-align:left; color: #1d1101" > </p>
+<div style = "background-image: url(moreButton.png); width: 130px; height: 35px; margin-top: 18px;" onmousedown = "List();"></div>
+</div>
+</td>
+<td>
+	<div style = "background-image: url(screen.png); width: 792px; height: 610px; margin-left:-53px;"> 
+		<canvas id="canvas" width="638" height="465" style = "margin-left: 76px; margin-top: 77px;" ></canvas> 
+		<img src="tentakles.png" style = "width: 769px; height: 598px; margin-left: 7px; margin-top: -550px;"/> 
+		<div style = "background-image: url(head.png); width: 362px; height:73px; top: 45px; position: absolute; margin-left: 220px;"> </div>
+		<div style = "margin-top: -420px; margin-left: 715px;">
+			<img src="muteButton.png" width = 46 height = 45 onmousedown = "if(!mus){ document.getElementById('player').pause(); mus = 1;} else {document.getElementById('player').play(); mus = 0;} "><br/>
+			<img src="soundUpButton.png" width = 46 height = 45 onmousedown = "document.getElementById('player').volume+=0.1;"><br/>
+			<img src="soundDownButton.png" width = 46 height = 45 onmousedown = "document.getElementById('player').volume-=0.1;"><br/>
+			<img src="pauseButton.png" width = 46 height = 45 onmousedown = "Pause();"><br/>
+			<img src="infoButton.png" width = 46 height = 45 onmousedown = "About();"><br/>
+			<img src="retryButton.png" width = 46 height = 45 onmousedown = "Start();"><br/>
+		</div>
+	</div>
+	<div id="wind_bal" > <text id = "bal"> 0</div>  
+	
+	<div id="over">
+		<p id = "p3" style = "font-family: Arial Narrow !important; font-size: 15px;"></p>
+	</div>
+	<div id = "code_vs" >
+		<p id = "p7" style = "font-family: Arial Narrow !important; font-size: 18px;">Поделиться результатом!</p>
+		<p id = "p6" style = "font-size: 10px;"></p>
+	</div>
+	<div id="wind_story">
+		<p id = "p4" style = "font-family: Arial Narrow !important; font-size: 15px;"></p>
+	</div>
+	
+	<div id="wind" >
+		<table align="center" border="0" CELLPADDING=0 CELLSPACING=10  >
+		<tbody>
+		<tr >
+			<td id = "td_s"><img src="1.png" id="im1" width = 100 onmouseover="ChangeImage(1,1)" onmouseout = "ChangeImage(0,1)" onmousedown = "ChangeImage(2,1)"/></td>
+			<td id = "td_s"><img src="2.png" id="im2" width = 100 onmouseover="ChangeImage(1,2)" onmouseout = "ChangeImage(0,2)" onmousedown = "ChangeImage(2,2)"/></td> 
+			<td id = "td_s"><img src="3.png" id="im3" width = 100 onmouseover="ChangeImage(1,3)" onmouseout = "ChangeImage(0,3)" onmousedown = "ChangeImage(2,3)"/></td> 
+			<td id = "td_s"><img src="4.png" id="im4" width = 100 onmouseover="ChangeImage(1,4)" onmouseout = "ChangeImage(0,4)" onmousedown = "ChangeImage(2,4)"/></td> 
+		</tr>
+		<tr>
+			<td id = "td_s"><img src="5.png" id="im5" width = 100 onmouseover="ChangeImage(1,5)" onmouseout = "ChangeImage(0,5)" onmousedown = "ChangeImage(2,5)"/></td>
+			<td id = "td_s"><img src="6.png" id="im6" width = 100 onmouseover="ChangeImage(1,6)" onmouseout = "ChangeImage(0,6)" onmousedown = "ChangeImage(2,6)"/></td>
+			<td id = "td_s"><img src="7.png" id="im7" width = 100 onmouseover="ChangeImage(1,7)" onmouseout = "ChangeImage(0,7)" onmousedown = "ChangeImage(2,7)"/></td> 
+			<td id = "td_s"><img src="8.png" id="im8" width = 100 onmouseover="ChangeImage(1,8)" onmouseout = "ChangeImage(0,8)" onmousedown = "ChangeImage(2,8)"/></td>
+		</tr>
+		<tr>
+			<td id = "td_s"><img src="9.png" id="im9" width = 100 onmouseover="ChangeImage(1,9)" onmouseout = "ChangeImage(0,9)" onmousedown = "ChangeImage(2,9)"/></td>
+			<td id = "td_s"><img src="10.png" id="im10" width = 100 onmouseover="ChangeImage(1,10)" onmouseout = "ChangeImage(0,10)" onmousedown = "ChangeImage(2,10)"/></td>
+			<td id = "td_s"><img src="11.png" id="im11" width = 100 onmouseover="ChangeImage(1,11)" onmouseout = "ChangeImage(0,11)" onmousedown = "ChangeImage(2,11)"/></td> 
+			<td id = "td_s"><img src="12.png" id="im12" width = 100 onmouseover="ChangeImage(1,12)" onmouseout = "ChangeImage(0,12)" onmousedown = "ChangeImage(2,12)"/></td>
+		</tr>
+		</tbody></table>
+	</div>
+	<div id="wind_about" align="center">
+		<text class = "po" style = "font-size: 25px;">О нас!</text>
+		<p id = "p5" style = "font-size: 18px;"></p>
+		<img src="ok.png" width = 50 onmousedown = "Close_about();"><p>
+	</div>	
+</td>
+</tr>
+</tbody></table>
+</div>
+</center>
+</body>
+</html>
